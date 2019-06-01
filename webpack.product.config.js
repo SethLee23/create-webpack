@@ -8,6 +8,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 //将js和css文件直接引入html文件中，解决出现版本号变化无法直接引入问题
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// 清理dist
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
@@ -89,7 +91,16 @@ module.exports = {
           removeComments: true,
           removeAttributeQuotes: true // 移除属性的引号
         }
-      })
+      }),
+    //   清理dist
+    new CleanWebpackPlugin({
+        // cleanOnceBeforeBuildPatterns: ['dist',{
+        //     root:  './dist',
+        //     exclude:  [main.html],
+        //     verbose:  true,
+        //     dry: false
+        //   }],
+    }),
   ],
 // 压缩css文件、js文件
   optimization: {
