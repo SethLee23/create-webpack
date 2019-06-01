@@ -3,6 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const devMode = process.env.NODE_ENV !== 'production'; // 判断当前环境是开发环境还是 部署环境，主要是 mode属性的设置值。
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
@@ -63,8 +64,16 @@ module.exports = {
       chunkFilename: '[id].[hash].css'
     })
   ],
-// 压缩css文件
+// 压缩css文件、js文件
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})]
+    minimizer: [
+        new OptimizeCSSAssetsPlugin({}),
+        new UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            sourceMap: true // set to true if you want JS source maps
+          })
+        ],
+    
   }
 };
