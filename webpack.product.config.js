@@ -2,7 +2,7 @@ const path = require('path');
 // 抽离style文件，创建版本号
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const devMode = process.env.NODE_ENV !== 'production'; // 判断当前环境是开发环境还是 部署环境，主要是 mode属性的设置值。
-
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
@@ -56,10 +56,15 @@ module.exports = {
     ]
   },
   plugins: [
+    //   抽取样式文件
     new MiniCssExtractPlugin({
     // 设置最终输出的文件名
       filename: '[name].[hash].css', 
       chunkFilename: '[id].[hash].css'
     })
-  ]
+  ],
+// 压缩css文件
+  optimization: {
+    minimizer: [new OptimizeCSSAssetsPlugin({})]
+  }
 };
