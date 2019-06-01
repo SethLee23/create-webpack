@@ -2,7 +2,10 @@ const path = require('path');
 // 抽离style文件，创建版本号
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const devMode = process.env.NODE_ENV !== 'production'; // 判断当前环境是开发环境还是 部署环境，主要是 mode属性的设置值。
+//压缩css
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// 压缩js
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -13,6 +16,16 @@ module.exports = {
   },
   module: {
     rules: [
+        {
+            test: /\.m?js$/,
+            exclude: /(node_modules|bower_components)/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: ['@babel/preset-env']
+              }
+            }
+          },
       {
         test: /\.(sa|sc|c)ss$/,
         rules: [{
