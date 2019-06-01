@@ -6,7 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // 压缩js
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
+//将js和css文件直接引入html文件中，解决出现版本号变化无法直接引入问题
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: './src/index.js',
@@ -76,7 +77,19 @@ module.exports = {
     // 设置最终输出的文件名
       filename: '[name].[hash].css', 
       chunkFilename: '[id].[hash].css'
-    })
+    }),
+    // html插件，使文件直接引入js和css
+    new HtmlWebpackPlugin({
+        title: 'seth-title', // 默认值：Webpack App
+        filename: 'main.html', // 指定输出文件、默认值： 'index.html'
+        template: path.resolve(__dirname, 'src/index.html'),
+        // 启用压缩
+        minify: {
+          collapseWhitespace: true,
+          removeComments: true,
+          removeAttributeQuotes: true // 移除属性的引号
+        }
+      })
   ],
 // 压缩css文件、js文件
   optimization: {
