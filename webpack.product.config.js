@@ -11,7 +11,8 @@ module.exports = {
   mode: 'production',
   entry: './src/index.js',
   output: {
-    filename: 'main.js',
+    //   给js加上版本号
+    filename: 'main.[hash].js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {
@@ -86,7 +87,6 @@ module.exports = {
             parallel: true,
             sourceMap: true // set to true if you want JS source maps
           })
-        ],
-    
+        ],  
   }
 };
